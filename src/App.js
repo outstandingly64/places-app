@@ -26,7 +26,4 @@ const App = () => {
 };
 
 export default App;
-<<<<<<< HEAD
 //Test v1.1
-=======
->>>>>>> parent of 53f99bb (Test)
