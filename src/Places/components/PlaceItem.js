@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Card from "../../Shared/components/UIElements/Card";
 import Button from "../../Shared/components/FormElements/Button";
 import Modal from "../../Shared/components/UIElements/Modal";
+import Map from '../../Shared/components/UIElements/Map';
 import "./PlaceItem.css";
 
 const PlaceItem = (props) => {
@@ -22,7 +23,7 @@ const PlaceItem = (props) => {
         footer={<Button onClick={closeMapHandler}>CLOSE</Button>}
       >
         <div className="map-container">
-            <h2>TODO: INSERT MAP HERE</h2>
+            <Map center={props.coordinates} zoom={16}/>
         </div>
       </Modal>
       <li className="place-item">
