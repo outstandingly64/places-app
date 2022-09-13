@@ -16,7 +16,7 @@ const DUMMY_PLACES = [
       lat: 13.4124693,
       lng: 103.864797,
     },
-    creator: "u2",
+    creator: "u3",
   },
   {
     id: "p2",
@@ -32,6 +32,21 @@ const DUMMY_PLACES = [
       lng: -99.1454316,
     },
     creator: "u1",
+  },
+  {
+    id: "p3",
+    title: "Alexandria",
+    description:
+      "Alexandria is a port city located on the Mediterranean Sea in northern Egypt founded in 331 BCE by Alexander the Great.",
+    imageUrl:
+      "https://m.economictimes.com/thumb/msid-68970748,width-1200,height-900,resizemode-4,imgsize-1607403/1.jpg",
+    address:
+      "Alexandria, Alexandria Governorate, Egypt",
+    location: {
+      lat: 31.2242387,
+      lng: 29.884846,
+    },
+    creator: "u2",
   },
 ];
 

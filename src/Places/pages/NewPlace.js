@@ -1,10 +1,13 @@
 import React from 'react'
 
-// type 'rafce' for (r)eact (a)rrow (f)unction (c)omponent (e)xport
+import Input from '../../Shared/components/FormElements/Input';
+import './NewPlace.css';
 
 const NewPlace = () => {
   return (
-    <div>NewPlace</div>
+    <form className="place-form">
+      <Input element='input' type="text" label="Title" validators={[]} errorText='enter valid title, bro.'/>
+    </form>
   )
 }
 
