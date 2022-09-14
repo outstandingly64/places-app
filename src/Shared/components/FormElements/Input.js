@@ -1,5 +1,6 @@
 import React, { useReducer } from "react";
 
+import { validate } from "../../Utilities/validators";
 import "./Input.css";
 
 //should always return a new state
@@ -9,8 +10,14 @@ const inputReducer = (state, action) => {
       return {
         ...state,
         value: action.val,
-        isValid: true,
+        isValid: validate(action.val, action.validators),
       };
+
+      case "BLUR":
+        return {
+          ...state,
+          isBlurred: true
+        };
 
     default:
       return state;
@@ -20,13 +27,24 @@ const inputReducer = (state, action) => {
 const Input = (props) => {
   const [inputState, dispatch] = useReducer(inputReducer, {
     value: "",
+    isBlurred: false,
     isValid: false,
   });
 
   //this function is called upon every keystroke event
   const changeHandler = (event) => {
-    //pass in an object: the action (.type & .val)
-    dispatch({ type: "CHANGE", val: event.target.value });
+    //pass in an object: the action (.type & .val & .validators)
+    dispatch({
+      type: "CHANGE",
+      val: event.target.value,
+      validators: props.validators,
+    });
+  };
+
+  const blurHandler = () => {
+    dispatch({
+      type: `BLUR`
+    });
   };
 
   const inputEl = (
@@ -34,6 +52,7 @@ const Input = (props) => {
       id={props.id}
       type={props.type}
       placeholder={props.placeholder}
+      onBlur={blurHandler}
       onChange={changeHandler}
       value={inputState.value}
     />
@@ -43,6 +62,7 @@ const Input = (props) => {
     <textarea
       id={props.id}
       rows={props.rows || 3}
+      onBlur={blurHandler}
       onChange={changeHandler}
       value={inputState.value}
     />
@@ -53,12 +73,12 @@ const Input = (props) => {
   return (
     <div
       className={`form-control ${
-        !inputState.isValid && "form-control--invalid"
+        !inputState.isValid && inputState.isBlurred && "form-control--invalid"
       }`}
     >
       <label htmlFor={props.id}>{props.label}</label>
       {element}
-      {!inputState.isValid && <p>{props.errorText}</p>}
+      {!inputState.isValid && inputState.isBlurred && <p>{props.errorText}</p>}
     </div>
   );
 };
