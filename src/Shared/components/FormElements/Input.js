@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useEffect } from "react";
 
 import { validate } from "../../Utilities/validators";
 import "./Input.css";
@@ -30,6 +30,13 @@ const Input = (props) => {
     isBlurred: false,
     isValid: false,
   });
+
+  const { onInput, id } = props;
+  const { value, isValid } = inputState;
+
+  useEffect(() => {
+    onInput(id, value, isValid)
+  }, [id, value, isValid, onInput]);
 
   //this function is called upon every keystroke event
   const changeHandler = (event) => {
