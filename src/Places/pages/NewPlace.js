@@ -1,63 +1,34 @@
-import React, { useCallback, useReducer } from "react";
+import React from "react";
 
 import Input from "../../Shared/components/FormElements/Input";
-import Button from '../../Shared/components/FormElements/Button';
+import Button from "../../Shared/components/FormElements/Button";
 import {
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
 } from "../../Shared/Utilities/validators";
-import "./NewPlace.css";
-
-const formReducer = (state, action) => {
-  switch (action.type) {
-    case "INPUT_CHANGE":
-      let formIsValid = true;
-      for (const inputId in state.inputs) {
-        if (inputId === action.inputId) {
-          formIsValid = formIsValid && action.isValid;
-        } else {
-          formIsValid = formIsValid && state.inputs[inputId].isValid;
-        }
-      }
-      return {
-        ...state,
-        inputs: {
-          ...state.inputs,
-          [action.inputId]: { value: action.value, isValid: action.isValid },
-        },
-        isValid: formIsValid,
-      };
-    default:
-      return state;
-  }
-};
+import { useForm } from '../../Shared/Hooks/form-hook';
+import "./PlaceForm.css";
 
 const NewPlace = () => {
-  const [formState, dispatch] = useReducer(formReducer, {
-    inputs: {
-      title: {
-        value: "",
-        isValid: false,
-      },
-      description: {
-        value: "",
-        isValid: false,
-      },
+  const newPlaceInputs = {
+    title: {
+      value: "",
+      isValid: false,
     },
-    isValid: false,
-  });
+    description: {
+      value: "",
+      isValid: false,
+    },
+    address: {
+      value: "",
+      isValid: false,
+    },
+  };
 
-  const inputHandler = useCallback((id, value, isValid) => {
-    //this is where ACTIONS are dispatched. ACTIONS are objects as you can see.
-    dispatch({
-      type: "INPUT_CHANGE",
-      value: value,
-      isValid: isValid,
-      inputId: id,
-    });
-  }, []);
+  // you can use any name you want when using array de-structuring
+  const [formState, inputHandler] = useForm(newPlaceInputs, false);
 
-  const submitHandler = event => {
+  const submitHandler = (event) => {
     event.preventDefault();
     //TODO: This WILL be sent to a backend server later.
     console.log(formState.inputs);
