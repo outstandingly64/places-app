@@ -10,7 +10,7 @@ import { useForm } from '../../Shared/Hooks/form-hook';
 import "./PlaceForm.css";
 
 const NewPlace = () => {
-  const newPlaceInputs = {
+  const NEW_PLACE_INPUTS = {
     title: {
       value: "",
       isValid: false,
@@ -26,7 +26,7 @@ const NewPlace = () => {
   };
 
   // you can use any name you want when using array de-structuring
-  const [formState, inputHandler] = useForm(newPlaceInputs, false);
+  const [formState, inputHandler] = useForm(NEW_PLACE_INPUTS, false);
 
   const submitHandler = (event) => {
     event.preventDefault();

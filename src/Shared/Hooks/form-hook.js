@@ -19,12 +19,16 @@ const formReducer = (state, action) => {
           },
           isValid: formIsValid,
         };
+        case "SET_DATA":
+          return {
+            inputs: action.inputs,
+            isValid: action.formIsValid
+          };
       default:
         return state;
     }
   };
 
-//TODO: custom hook for forms validation
 // parameter types: (nested object, boolean)
 export const useForm = (initalInputs, initialValidity) => {
 
@@ -43,7 +47,15 @@ export const useForm = (initalInputs, initialValidity) => {
         });
       }, []);
 
-      return [formState, inputHandler];
+      const setFormData = useCallback((inputData, formValidity) => {
+        dispatch({
+          type: 'SET_DATA',
+          inputs: inputData,
+          formIsValid: formValidity,
+        });
+      }, []);
+
+      return [formState, inputHandler, setFormData];
 
 };
 

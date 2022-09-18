@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import Input from "../../Shared/components/FormElements/Input";
 import Button from "../../Shared/components/FormElements/Button";
+import Card from '../../Shared/components/UIElements/Card';
 import {
   VALIDATOR_REQUIRE,
   VALIDATOR_MINLENGTH,
@@ -57,24 +58,48 @@ const DUMMY_PLACES = [
 ];
 
 const UpdatePlace = () => {
+const [isLoading, setIsLoading] = useState(true);
+
   const placeId = useParams().placeId;
 
-  const identifiedPlace = DUMMY_PLACES.find((p) => p.id === placeId);
-
-  const updatePlaceInputs = {
+  const UPDATE_PLACE_INPUTS = {
     title: {
-      value: identifiedPlace.title,
-      isValid: true,
+      value: "",
+      isValid: false,
     },
     description: {
-      value: identifiedPlace.description,
-      isValid: true,
+      value: "",
+      isValid: false,
     },
   };
 
-  const [formState, inputHandler] = useForm(updatePlaceInputs, true);
+  const [formState, inputHandler, setFormData] = useForm(
+    UPDATE_PLACE_INPUTS,
+    false
+  );
 
-  const placeUpdateSubmitHandler = event => {
+  const identifiedPlace = DUMMY_PLACES.find((p) => p.id === placeId);
+
+  useEffect(()=>{
+    if(identifiedPlace){
+        setFormData({
+                title: {
+                    value: identifiedPlace.title,
+                    isValid: true,
+                },
+                description: {
+                    value: identifiedPlace.description,
+                    isValid: true,
+                },
+            }, true);
+            setIsLoading(false);
+    }
+    
+  }, [setFormData, identifiedPlace]);
+
+  
+
+  const placeUpdateSubmitHandler = (event) => {
     event.preventDefault();
     console.log(formState.inputs);
   };
@@ -82,13 +107,23 @@ const UpdatePlace = () => {
   if (!identifiedPlace) {
     return (
       <div className="center">
-        <h2>Could not find conquered place.</h2>
+        <Card>
+            <h2>Could not find conquered place!</h2>
+        </Card>
+      </div>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="center">
+        <h2>LOADING...</h2>
       </div>
     );
   }
 
   return (
-    <form className="place-form" onSubmit={placeUpdateSubmitHandler}>
+     <form className="place-form" onSubmit={placeUpdateSubmitHandler}>
       <Input
         id="title"
         element="input"
