@@ -6,6 +6,11 @@ import Button from '../../Shared/components/FormElements/Button';
 
 import "./PlaceList.css";
 
+/**
+ * OTHER COMPONENTS USING THIS:
+ * 1. <UserPlaces/>
+ */
+
 const PlaceList = (props) => {
   const noPlacesJSX = (
     <div className="place-list center">
@@ -32,6 +37,7 @@ const PlaceList = (props) => {
         address={place.address}
         creatorID={place.creator}
         coordinates={place.location}
+        royalPronoun={place.creatorPronoun}
         />
       ))}
     </ul>
