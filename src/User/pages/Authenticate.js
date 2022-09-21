@@ -12,10 +12,16 @@ import {
   VALIDATOR_REQUIRE,
 } from "../../Shared/Utilities/validators";
 
+/**
+ * Main Login/Signup Component: Card.js, Input.js, Button.js
+ */
 const Authenticate = () => {
   const auth = useContext(AuthContext);
   const [loggedIn, setLoggedIn] = useState(true);
 
+  /**
+   * utilized as a parameter for 'useForm'
+   */
   const initialInputs = {
     email: {
       value: "",
@@ -29,12 +35,18 @@ const Authenticate = () => {
 
   const [formState, inputHandler, setFormData] = useForm(initialInputs, false);
 
+  /**
+   * Login Function
+   */
   const authSubmitHandler = (event) => {
     event.preventDefault();
     console.log(formState.inputs);
     auth.login();
   };
 
+  /**
+   * Adjusts our 'useForm' state reducer upon login/signup switch event
+   */
   const switchModeHandler = () => {
     if(!loggedIn){
         setFormData({

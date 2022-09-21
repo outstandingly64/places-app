@@ -7,7 +7,15 @@ import SideDrawer from "./SideDrawer";
 import "./MainNavigation.css";
 import Backdrop from "../UIElements/Backdrop";
 
+/**
+ * Contains: NavLinks.js, SideDrawer.js, MainHeader.js
+ * 
+ */
 const MainNavigation = (props) => {
+
+  /**
+   * SideDrawer 'isOpen' State (mobile or tablet)
+   */
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
 
   const openDrawerHandler = () => setDrawerIsOpen(true);

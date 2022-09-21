@@ -1,22 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
 import Card from "../../Shared/components/UIElements/Card";
 import Button from "../../Shared/components/FormElements/Button";
 import Modal from "../../Shared/components/UIElements/Modal";
 import Map from '../../Shared/components/UIElements/Map';
+import { AuthContext } from '../../Shared/context/auth-context';
 import "./PlaceItem.css";
 
 /**
- * OTHER COMPONENTS USING THIS:
- * 1. <PlaceList/>
+ * OTHER COMPONENTS: Card.js, Button.js, Modal.js, Map.js, AuthContext  
  */
-
 const PlaceItem = (props) => {
+
   /**
-   * STATES:
-   * One for showing the map/modal
-   * One for confirming deletion modal
+   * STATES & CONTEXT:
+   * State for showing the map/modal
+   * State for confirming deletion modal
    */
+  const auth = useContext(AuthContext);
   const [showMap, setShowMap] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
@@ -34,6 +35,7 @@ const PlaceItem = (props) => {
   const showDeleteWarningHandler = () => setShowConfirmModal(true);
   const closeDeleteWarningHandler = () => setShowConfirmModal(false);
   const confirmDeleteHandler = () => {
+    //TODO: Hook Up To Backend
     console.log('DELETING...');
     closeDeleteWarningHandler();
   };
@@ -88,8 +90,8 @@ const PlaceItem = (props) => {
           </div>
           <div className="place-item__actions">
             <Button inverse onClick={openMapHandler}>VIEW ON MAP</Button>
-            <Button to={`/places/${props.id}`}>EDIT</Button>
-            <Button onClick={showDeleteWarningHandler} danger>DELETE</Button>
+            {auth.isLoggedIn && (<Button to={`/places/${props.id}`}>EDIT</Button>)}
+            {auth.isLoggedIn && (<Button onClick={showDeleteWarningHandler} danger>DELETE</Button>)}
           </div>
         </Card>
       </li>
