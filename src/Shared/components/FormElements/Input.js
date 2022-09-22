@@ -1,5 +1,6 @@
 import React, { useReducer, useEffect } from "react";
 
+import { Form } from 'semantic-ui-react'
 import { validate } from "../../Utilities/validators";
 import "./Input.css";
 
