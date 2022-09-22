@@ -8,7 +8,6 @@ import Card from "./Card";
 /**
  * TODO: Continue Implementing Frontend with Semantic UI Components
  * TO ACCESS THIS COMPONENT: website path ending in '/semanticform'
- * V.1
  */
 const SemanticForm = () => {
   return (
