@@ -12,7 +12,6 @@ import UpdatePlace from "./Places/pages/UpdatePlace";
 import UserPlaces from "./Places/pages/UserPlaces";
 import Users from "./User/pages/Users";
 import Authenticate from "./User/pages/Authenticate";
-import SemanticForm from './Shared/components/UIElements/SemanticForm';
 import { AuthContext } from "./Shared/context/auth-context";
 
 const App = () => {
@@ -52,7 +51,6 @@ const App = () => {
         <Route path="/" element={<Users />} />
         <Route path="/:userId/places" exact element={<UserPlaces />} />
         <Route path="/auth" exact element={<Authenticate />} />
-        <Route path="/semanticform" exact element={<SemanticForm />} />
         <Route path="/*" element={<Navigate to="/auth" replace />} />
       </>
     );
