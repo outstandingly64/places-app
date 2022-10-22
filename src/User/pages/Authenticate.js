@@ -38,9 +38,32 @@ const Authenticate = () => {
   /**
    * Login Function
    */
-  const authSubmitHandler = (event) => {
+  const authSubmitHandler = async (event) => {
     event.preventDefault();
-    console.log(formState.inputs);
+
+    if (loggedIn) {
+    } else {
+      try {
+        //must configure the request to be POST
+        const response = await fetch("http://localhost:5000/api/users/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: formState.inputs.name.value,
+            email: formState.inputs.email.value,
+            password: formState.inputs.password.value,
+          }),
+        });
+
+        const responseData = await response.json();
+        console.log(responseData);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
     auth.login();
   };
 
@@ -48,19 +71,25 @@ const Authenticate = () => {
    * Adjusts our 'useForm' state reducer upon login/signup switch event
    */
   const switchModeHandler = () => {
-    if(!loggedIn){
-        setFormData({
-        ...formState.inputs,
+    if (!loggedIn) {
+      setFormData(
+        {
+          ...formState.inputs,
           name: undefined,
-        }, formState.inputs.email.isValid && formState.inputs.password.isValid);
-    }else{
-      setFormData({
-        ...formState.inputs,
-        name: {
-          value: '',
-          isValid: false
-        }
-      }, false);
+        },
+        formState.inputs.email.isValid && formState.inputs.password.isValid
+      );
+    } else {
+      setFormData(
+        {
+          ...formState.inputs,
+          name: {
+            value: "",
+            isValid: false,
+          },
+        },
+        false
+      );
     }
 
     setLoggedIn((prevMode) => !prevMode);
