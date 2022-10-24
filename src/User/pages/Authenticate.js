@@ -19,7 +19,7 @@ import {
  */
 const Authenticate = () => {
   const auth = useContext(AuthContext);
-  const [loggedIn, setLoggedIn] = useState(true);
+  const [isLoginMode, setIsLoginMode] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
 
@@ -40,47 +40,10 @@ const Authenticate = () => {
   const [formState, inputHandler, setFormData] = useForm(initialInputs, false);
 
   /**
-   * Login Function
-   */
-  const authSubmitHandler = async (event) => {
-    event.preventDefault();
-
-    if (loggedIn) {
-    } else {
-      try {
-        //must configure the request to be POST
-        const response = await fetch("http://localhost:5000/api/users/signup", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: formState.inputs.name.value,
-            email: formState.inputs.email.value,
-            password: formState.inputs.password.value,
-          }),
-        });
-
-        const responseData = await response.json();
-        if (!response.ok) {
-          throw new Error(responseData.message);
-        }
-        console.log(responseData);
-        setIsLoading(false);
-        auth.login();
-      } catch (err) {
-        console.log(err);
-        setIsLoading(false);
-        setError(err.message || "Something went wrong please try again later.");
-      }
-    }
-  };
-
-  /**
    * Adjusts our 'useForm' state reducer upon login/signup switch event
    */
-  const switchModeHandler = () => {
-    if (!loggedIn) {
+   const switchModeHandler = () => {
+    if (!isLoginMode) {
       setFormData(
         {
           ...formState.inputs,
@@ -101,7 +64,71 @@ const Authenticate = () => {
       );
     }
 
-    setLoggedIn((prevMode) => !prevMode);
+    setIsLoginMode((prevMode) => !prevMode);
+  };
+
+  /**
+   * Login Function
+   */
+  const authSubmitHandler = async (event) => {
+    event.preventDefault();
+    setIsLoading(true);
+
+    if (isLoginMode) {
+      // log in functionality
+      try {
+        //must configure the request to be POST
+        const response = await fetch("http://localhost:5000/api/users/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: formState.inputs.email.value,
+            password: formState.inputs.password.value,
+          }),
+        });
+
+        const responseData = await response.json();
+        // check to see if we have any error of level 400 or 500
+        if (!response.ok) {
+          throw new Error(responseData.message);
+        }
+        setIsLoading(false);
+        auth.login();
+      } catch (err) {
+        console.log(err);
+        setIsLoading(false);
+        setError(err.message || "Something went wrong please try again later.");
+      }
+    } else {
+      //sign up functionality
+      try {
+        //must configure the request to be POST
+        const response = await fetch("http://localhost:5000/api/users/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: formState.inputs.name.value,
+            email: formState.inputs.email.value,
+            password: formState.inputs.password.value,
+          }),
+        });
+
+        const responseData = await response.json();
+        if (!response.ok) {
+          throw new Error(responseData.message);
+        }
+        setIsLoading(false);
+        auth.login();
+      } catch (err) {
+        console.log(err);
+        setIsLoading(false);
+        setError(err.message || "Something went wrong please try again later.");
+      }
+    }
   };
 
   const errorHandler = () => {
@@ -116,7 +143,7 @@ const Authenticate = () => {
         <h2>Login Required</h2>
         <hr />
         <form onSubmit={authSubmitHandler}>
-          {!loggedIn && (
+          {!isLoginMode && (
             <Input
               element="input"
               id="name"
@@ -146,11 +173,11 @@ const Authenticate = () => {
             onInput={inputHandler}
           />
           <Button type="submit" disabled={!formState.isValid}>
-            {loggedIn ? "LOGIN" : "SIGNUP"}
+            {isLoginMode ? "LOGIN" : "SIGNUP"}
           </Button>
         </form>
         <Button inverse onClick={switchModeHandler}>
-          SWITCH TO {loggedIn ? "SIGNUP" : "LOGIN"}
+          SWITCH TO {isLoginMode ? "SIGNUP" : "LOGIN"}
         </Button>
       </Card>
     </>
