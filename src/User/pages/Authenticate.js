@@ -7,6 +7,7 @@ import ErrorModal from "../../Shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../Shared/components/UIElements/LoadingSpinner";
 
 import { useForm } from "../../Shared/Hooks/form-hook";
+import { useHttpClient } from "../../Shared/Hooks/http-hook";
 import { AuthContext } from "../../Shared/context/auth-context";
 import {
   VALIDATOR_EMAIL,
@@ -20,8 +21,7 @@ import {
 const Authenticate = () => {
   const auth = useContext(AuthContext);
   const [isLoginMode, setIsLoginMode] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState();
+  const {isLoading, error, sendRequest, clearError } = useHttpClient();
 
   /**
    * utilized as a parameter for 'useForm'
@@ -72,72 +72,51 @@ const Authenticate = () => {
    */
   const authSubmitHandler = async (event) => {
     event.preventDefault();
-    setIsLoading(true);
 
     if (isLoginMode) {
       // log in functionality
-      try {
-        //must configure the request to be POST
-        const response = await fetch("http://localhost:5000/api/users/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: formState.inputs.email.value,
-            password: formState.inputs.password.value,
-          }),
-        });
-
-        const responseData = await response.json();
-        // check to see if we have any error of level 400 or 500
-        if (!response.ok) {
-          throw new Error(responseData.message);
-        }
-        setIsLoading(false);
+      try{
+// this will be undefined if error occurs
+        await sendRequest(
+          "http://localhost:5000/api/users/login",
+          "POST",
+          JSON.stringify({
+          email: formState.inputs.email.value,
+          password: formState.inputs.password.value,
+        }),
+        {
+            "Content-Type": "application/json"
+        },
+        );
         auth.login();
-      } catch (err) {
-        console.log(err);
-        setIsLoading(false);
-        setError(err.message || "Something went wrong please try again later.");
+      }catch(err){
+        // all error handling is taking place in the custom hook
       }
     } else {
       //sign up functionality
       try {
-        //must configure the request to be POST
-        const response = await fetch("http://localhost:5000/api/users/signup", {
-          method: "POST",
-          headers: {
+    
+       await sendRequest(
+        "http://localhost:5000/api/users/signup",
+        "POST",
+        JSON.stringify({
+          name: formState.inputs.name.value,
+          email: formState.inputs.email.value,
+          password: formState.inputs.password.value,
+        }),
+          {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            name: formState.inputs.name.value,
-            email: formState.inputs.email.value,
-            password: formState.inputs.password.value,
-          }),
-        });
+        );
 
-        const responseData = await response.json();
-        if (!response.ok) {
-          throw new Error(responseData.message);
-        }
-        setIsLoading(false);
         auth.login();
-      } catch (err) {
-        console.log(err);
-        setIsLoading(false);
-        setError(err.message || "Something went wrong please try again later.");
-      }
+      } catch (err) {}
     }
-  };
-
-  const errorHandler = () => {
-    setError(null);
   };
 
   return (
     <>
-    <ErrorModal error={error} onClear={errorHandler}/>
+    <ErrorModal error={error} onClear={clearError}/>
       <Card className="authentication">
         {isLoading && <LoadingSpinner asOverlay />}
         <h2>Login Required</h2>

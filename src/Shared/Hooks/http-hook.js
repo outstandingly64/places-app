@@ -26,17 +26,22 @@ export const useHttpClient = () => {
 
         const responseData = await response.json();
 
+        // clear the abort ctrls that belong to the request which just completed
+        activeHttpRequests.current = activeHttpRequests.current.filter(reqCtrl => reqCtrl !== httpAbortCtrl);
+
         // throw an error if we have a 400 or 500 level response code
         if (!response.ok) {
           throw new Error(responseData.message);
         }
-
+        setIsLoading(false);
         return responseData;
       } catch (err) {
         setError(err.message);
+        setIsLoading(false);
+        throw err;
       }
 
-      setIsLoading(false);
+      
     },
     []
   );
