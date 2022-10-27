@@ -1,4 +1,5 @@
 import React, {useContext} from "react";
+import { useNavigate } from "react-router-dom";
 
 import Input from "../../Shared/components/FormElements/Input";
 import Button from "../../Shared/components/FormElements/Button";
@@ -35,6 +36,8 @@ const NewPlace = () => {
   // you can use any name you want when using array de-structuring
   const [formState, inputHandler] = useForm(NEW_PLACE_INPUTS, false);
 
+  const navigate = useNavigate();
+
   const submitHandler = async (event) => {
     event.preventDefault();
     try{
@@ -51,7 +54,7 @@ const NewPlace = () => {
           'Content-Type': 'application/json'
         }
         );
-        // TODO: after successful API POST request, we must redirect the user to a different page
+        navigate('/');
     }catch(err){
 
     }
