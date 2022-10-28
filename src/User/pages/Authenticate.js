@@ -147,8 +147,8 @@ const Authenticate = () => {
             element="input"
             type="password"
             label="password"
-            validators={[VALIDATOR_MINLENGTH(7)]}
-            errorText="Please enter valid password, at least 7 characters."
+            validators={[VALIDATOR_MINLENGTH(6)]}
+            errorText="Please enter valid password, at least 6 characters."
             onInput={inputHandler}
           />
           <Button type="submit" disabled={!formState.isValid}>
