@@ -5,6 +5,7 @@ import Input from "../../Shared/components/FormElements/Input";
 import Button from "../../Shared/components/FormElements/Button";
 import ErrorModal from "../../Shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../Shared/components/UIElements/LoadingSpinner";
+import ImageUpload from "../../Shared/components/FormElements/ImageUpload";
 
 import { useForm } from "../../Shared/Hooks/form-hook";
 import { useHttpClient } from "../../Shared/Hooks/http-hook";
@@ -133,6 +134,7 @@ const Authenticate = () => {
               onInput={inputHandler}
             />
           )}
+          {!isLoginMode && <ImageUpload center id="image"/>}
           <Input
             id="email"
             element="input"
