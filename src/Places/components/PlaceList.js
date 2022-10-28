@@ -38,6 +38,7 @@ const PlaceList = (props) => {
         creatorID={place.creator}
         coordinates={place.location}
         royalPronoun={place.creatorPronoun}
+        onDelete={props.onDeletePlace}
         />
       ))}
     </ul>
