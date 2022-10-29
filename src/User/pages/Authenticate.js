@@ -137,7 +137,7 @@ const Authenticate = () => {
               onInput={inputHandler}
             />
           )}
-          {!isLoginMode && <ImageUpload center id="image" onInput={inputHandler}/>}
+          {!isLoginMode && <ImageUpload center id="image" onInput={inputHandler} errorText="Please provide an image of type .png, .jpg, or .jpeg!"/>}
           <Input
             id="email"
             element="input"
