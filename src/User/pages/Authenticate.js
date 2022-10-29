@@ -78,12 +78,11 @@ const Authenticate = () => {
    */
   const authSubmitHandler = async (event) => {
     event.preventDefault();
-    console.log(formState.inputs);
 
     if (isLoginMode) {
       // log in functionality
       try{
-// this will be undefined if error occurs
+        // this will be undefined if error occurs
         const responseData = await sendRequest(
           "http://localhost:5000/api/users/login",
           "POST",
@@ -102,18 +101,16 @@ const Authenticate = () => {
     } else {
       //sign up functionality
       try {
-    
+        const formData = new FormData();
+        formData.append('email', formState.inputs.email.value);
+        formData.append('name', formState.inputs.name.value);
+        formData.append('password', formState.inputs.password.value);
+        formData.append('image', formState.inputs.image.value);
+
        const responseData = await sendRequest(
         "http://localhost:5000/api/users/signup",
         "POST",
-        JSON.stringify({
-          name: formState.inputs.name.value,
-          email: formState.inputs.email.value,
-          password: formState.inputs.password.value,
-        }),
-          {
-            "Content-Type": "application/json",
-          },
+        formData
         );
 
         auth.login(responseData.user.id);
