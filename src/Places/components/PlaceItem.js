@@ -80,11 +80,11 @@ const PlaceItem = (props) => {
       <Modal
       show={showConfirmModal}
       onCancel={closeDeleteWarningHandler} 
-      header={`Are you sure, ${props.royalPronoun}?`}
+      header={`Are you sure, your majesty?`}
       footerClass="place-item__modal-actions"
       footer={modalDeleteBtns}
       >
-        <p>Delete Conquered Place? This action cannot be undone and you must re-conquer whatever is relinquished.</p>
+        <p>You sure you want to proceed with deleting? This action cannot be undone and you must re-conquer whatever is relinquished.</p>
       </Modal>
       <li className="place-item">
         <Card className="place-item__content">
