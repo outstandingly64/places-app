@@ -14,20 +14,22 @@ import Users from "./User/pages/Users";
 import Authenticate from "./User/pages/Authenticate";
 import { AuthContext } from "./Shared/context/auth-context";
 
+let logoutTimer;
+
 const App = () => {
   /**
    * Authentication STATE:
    */
   const [token, setToken] = useState(false);
+  const [tokenExpireDate, setTokenExpireDate] = useState();
   const [userId, setUserId] = useState(false);
-
-  //TODO: Manage the token expiration
 
   const login = useCallback((uid, token, expirationDate) => {
     setToken(token);
     setUserId(uid);
     const tokenExpirationDate =
       expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60);
+      setTokenExpireDate(tokenExpirationDate);
     //store token in localstorage
     localStorage.setItem(
       "userData",
@@ -41,9 +43,19 @@ const App = () => {
 
   const logout = useCallback(() => {
     setToken(null);
+    setTokenExpireDate(null);
     setUserId(null);
     localStorage.removeItem("userData");
   }, []);
+
+  useEffect(()=>{
+    if(token && tokenExpireDate){
+      const remainingTime = tokenExpireDate.getTime() - new Date().getTime();
+      logoutTimer = setTimeout(logout, remainingTime);
+    }else{
+      clearTimeout(logoutTimer);
+    }
+  }, [token, logout, tokenExpireDate]);
 
   //empty dependency array = will only run once
   useEffect(() => {
