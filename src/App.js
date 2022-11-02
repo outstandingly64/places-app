@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -21,6 +21,8 @@ const App = () => {
   const [token, setToken] = useState(false);
   const [userId, setUserId] = useState(false);
 
+  //TODO: Manage the token expiration
+
   const login = useCallback((uid, token) => {
     setToken(token);
     //store token in localstorage
@@ -31,7 +33,16 @@ const App = () => {
   const logout = useCallback(() => {
     setToken(null);
     setUserId(null);
+    localStorage.removeItem('userData');
   }, []);
+
+   //empty dependency array = will only run once
+   useEffect(()=>{
+    const storedData = JSON.parse(localStorage.getItem('userData'));
+    if(storedData && storedData.token){
+      login(storedData.userId, storedData.token);
+    }
+  }, [login]);
 
   /**
    * One set of routes exists at a time
