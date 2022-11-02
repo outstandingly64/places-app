@@ -23,6 +23,8 @@ const App = () => {
 
   const login = useCallback((uid, token) => {
     setToken(token);
+    //store token in localstorage
+    localStorage.setItem('userData', JSON.stringify({userId: uid, token: token}));
     setUserId(uid);
   }, []);
 
