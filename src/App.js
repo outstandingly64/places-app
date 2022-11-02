@@ -23,24 +23,37 @@ const App = () => {
 
   //TODO: Manage the token expiration
 
-  const login = useCallback((uid, token) => {
+  const login = useCallback((uid, token, expirationDate) => {
     setToken(token);
-    //store token in localstorage
-    localStorage.setItem('userData', JSON.stringify({userId: uid, token: token}));
     setUserId(uid);
+    const tokenExpirationDate =
+      expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60);
+    //store token in localstorage
+    localStorage.setItem(
+      "userData",
+      JSON.stringify({
+        userId: uid,
+        token: token,
+        expiration: tokenExpirationDate.toISOString(),
+      })
+    );
   }, []);
 
   const logout = useCallback(() => {
     setToken(null);
     setUserId(null);
-    localStorage.removeItem('userData');
+    localStorage.removeItem("userData");
   }, []);
 
-   //empty dependency array = will only run once
-   useEffect(()=>{
-    const storedData = JSON.parse(localStorage.getItem('userData'));
-    if(storedData && storedData.token){
-      login(storedData.userId, storedData.token);
+  //empty dependency array = will only run once
+  useEffect(() => {
+    const storedData = JSON.parse(localStorage.getItem("userData"));
+    if (
+      storedData &&
+      storedData.token &&
+      new Date(storedData.expiration) > new Date()
+    ) {
+      login(storedData.userId, storedData.token, new Date(storedData.expiration));
     }
   }, [login]);
 
@@ -57,7 +70,7 @@ const App = () => {
         <Route path="/" element={<Users />} />
         <Route path="/:userId/places" exact element={<UserPlaces />} />
         <Route path="/places/new" exact element={<NewPlace />} />
-            <Route path="/places/:placeId" element={<UpdatePlace />} />
+        <Route path="/places/:placeId" element={<UpdatePlace />} />
         <Route path="/*" element={<Navigate to="/" replace />} />
       </>
     );
@@ -74,14 +87,18 @@ const App = () => {
 
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn: !!token, token: token, userId: userId, login: login, logout: logout }}
+      value={{
+        isLoggedIn: !!token,
+        token: token,
+        userId: userId,
+        login: login,
+        logout: logout,
+      }}
     >
       <Router>
         <MainNavigation />
         <main>
-          <Routes>
-            {routes}
-          </Routes>
+          <Routes>{routes}</Routes>
         </main>
       </Router>
     </AuthContext.Provider>
