@@ -42,7 +42,7 @@ const UpdatePlace = () => {
     const fetchPlace = async () => {
       try {
         const responseData = await sendRequest(
-          `http://localhost:5000/api/places/${placeId}`
+          `${process.env.REACT_APP_BACKEND_URL}/places/${placeId}`
         );
         setLoadedPlace(responseData.place);
         setFormData(
@@ -69,7 +69,7 @@ const UpdatePlace = () => {
       // request is of type PATCH and responseData not needed
       // since we are updating a place
       await sendRequest(
-        `http://localhost:5000/api/places/${placeId}`,
+        `${process.env.REACT_APP_BACKEND_URL}/places/${placeId}`,
         `PATCH`,
         JSON.stringify({
           title: formState.inputs.title.value,
