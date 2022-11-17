@@ -19,7 +19,7 @@ const Users = () => {
 
       try {
         // only needs url in this case: httpHook has default parameters for GET requests 
-        const responseData = await sendRequest("http://localhost:5000/api/users");
+        const responseData = await sendRequest(process.env.REACT_APP_BACKEND_URL + "/users");
 
         setLoadedUsers(responseData.users);
       } catch (err) {
