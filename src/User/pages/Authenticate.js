@@ -108,7 +108,7 @@ const Authenticate = () => {
         formData.append('image', formState.inputs.image.value);
 
        const responseData = await sendRequest(
-        process.env.REACT_APP_BACKEND_URL + "/api/users/signup",
+        process.env.REACT_APP_BACKEND_URL + "/users/signup",
         "POST",
         formData
         );
