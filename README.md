@@ -8,4 +8,4 @@ React.js frontend is hosted via Firebase: https://conquer-places-app.web.app
 
 The REST API/Backend is hosted separately via Heroku.
 
-Update: currently setting up image uploading to aws s3 -- heroku does not have file persistent storage, which is causing images not to be saved/displayed.
+Update: currently setting up image uploading to aws s3 -- heroku does not have file persistent storage, which is causing images not to be saved/displayed. Heroku Dynos also no longer a thing, therfore temporarily unable to fetch backend data from MongoDB cluster. These bug fixes are in progress.
