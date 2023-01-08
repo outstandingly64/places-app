@@ -6,7 +6,7 @@
   background: #3a64e3;
   color: white;
   cursor: pointer;
-  margin-right: 1rem;
+  margin-right: 1rem auto;
   text-decoration: none;
   display: inline-block;
 }

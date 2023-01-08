@@ -123,7 +123,7 @@ const Authenticate = () => {
     <ErrorModal error={error} onClear={clearError}/>
       <Card className="authentication">
         {isLoading && <LoadingSpinner asOverlay />}
-        <h2>Login Required</h2>
+        <h2>{isLoginMode ? 'Log In' : 'Sign Up'}</h2>
         <hr />
         <form onSubmit={authSubmitHandler}>
           {!isLoginMode && (
@@ -131,7 +131,7 @@ const Authenticate = () => {
               element="input"
               id="name"
               type="text"
-              label="Fullname"
+              label="User Name"
               validators={[VALIDATOR_REQUIRE()]}
               errorText="Please enter a royal name!"
               onInput={inputHandler}
@@ -142,7 +142,7 @@ const Authenticate = () => {
             id="email"
             element="input"
             type="email"
-            label="E-mail"
+            label="E-Mail"
             validators={[VALIDATOR_EMAIL()]}
             errorText="Please enter valid email address."
             onInput={inputHandler}
@@ -151,7 +151,7 @@ const Authenticate = () => {
             id="password"
             element="input"
             type="password"
-            label="password"
+            label="Password"
             validators={[VALIDATOR_MINLENGTH(6)]}
             errorText="Please enter valid password, at least 6 characters."
             onInput={inputHandler}
