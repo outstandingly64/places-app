@@ -12,3 +12,13 @@ Uses React Router for route configuration, allowing components to be rendered ba
 The clinet-side of this application is hosted statically via Firebase.
 
 The Node & Express REST API/Backend is hosted separately via Render.
+
+## Built With
+- [React](https://reactjs.org/) - A JavaScript library for building user interfaces
+- [Node.js](https://nodejs.org/) - A JavaScript runtime built on Chrome's V8 JavaScript engine
+- [Express](https://expressjs.com/) - A web application framework for Node.js
+- [MongoDB](https://www.mongodb.com/) - A document-oriented database
+- [React Router](https://reactrouter.com/) - A collection of navigational components for React
+- [Firebase](https://firebase.google.com/) - A platform for developing web and mobile applications
+- [Render](https://render.com/) - A platform for deploying and scaling web applications
+- [AWS S3](https://aws.amazon.com/s3/) - A simple storage service that offers industry-leading scalability, data availability, security, and performance
