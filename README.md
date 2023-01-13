@@ -9,7 +9,7 @@ Add places (and images) you wish to or have traveled to after signing into your 
 
 Uses React Router for route configuration, allowing components to be rendered based on the path entered into the browser's search bar. Upon logging in or signing up, additional routes and components are available that all users to have the capabilities of uploading new places, editing places, and deleting places.
 
-The clinet-side of this application is hosted statically via Firebase.
+The client-side of this application is hosted statically via Firebase.
 
 The Node & Express REST API/Backend is hosted separately via Render.
 
@@ -22,3 +22,5 @@ The Node & Express REST API/Backend is hosted separately via Render.
 - [Firebase](https://firebase.google.com/) - A platform for developing web and mobile applications
 - [Render](https://render.com/) - A platform for deploying and scaling web applications
 - [AWS S3](https://aws.amazon.com/s3/) - A simple storage service that offers industry-leading scalability, data availability, security, and performance
+- [OpenLayers](https://openlayers.org/) - A JavaScript library for displaying map data in web browsers
+- [LocationIQ](https://locationiq.com/) - A geolocation API for forward and reverse geocoding
